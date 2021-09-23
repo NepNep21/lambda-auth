@@ -127,11 +127,27 @@ dependencies {
 
     // Add your dependencies below
     // jarLibs 'com.lambda:example:1.0.0'
+
+    // Stupid hack because MSAL's slf4j is corrupted somehow?
+    jarLibs('com.microsoft.azure:msal4j:1.11.0') {
+        exclude module: 'slf4j-api'
+    }
+    jarLibs 'org.slf4j:slf4j-api:1.7.32'
+
+    implementation configurations.jarLibs
 }
 
 mixin {
     defaultObfuscationEnv 'searge'
     add sourceSets.main, 'mixins.lambda.refmap.json'
+}
+
+jar {
+    from {
+        configurations.jarLibs.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
 
 jar.finalizedBy('reobfJar')

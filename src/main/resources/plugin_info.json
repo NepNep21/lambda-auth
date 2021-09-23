@@ -1,9 +1,9 @@
 {
   "name": "lambda-auth",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "authors": ["Nep Nep"],
   "description": "Allows you to automatically reauthenticate with mojang to continue playing after the \"invalid session\" error",
-  "url": "https://github.com/Lolicon2110/lambda-auth",
+  "url": "https://github.com/NepNep21/lambda-auth",
   "min_api_version": "2.05.01",
   "required_plugins": [],
   "main_class": "me.nepnep.lambdaauth.LambdaAuth",
