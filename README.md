@@ -9,4 +9,12 @@ Enable the module and set your details (SAVED IN PLAIN TEXT)
 Enable the module and set your email  
 On your first time using this plugin (or whenever microsoft decides to say you have to), run the command ";lambda-auth" and follow the instructions
 
-IF USING A MICROSOFT ACCOUNT AND SOMETHING FAILS, DO NOT SEND A FULL LOG WHEN ASKING FOR HELP, AS IT MAY CONTAIN SENSITIVE INFORMATION
+IF USING A MICROSOFT ACCOUNT AND SOMETHING FAILS, DO NOT SEND A FULL LOG WHEN ASKING FOR HELP, AS IT MAY CONTAIN SENSITIVE INFORMATION  
+
+If authentication fails, and you see a mention of the term "XErr" in the log, followed by a number, here are what the numbers mean:  
+
+2148916233: You do not have an xbox account connected to your microsoft account, create one by logging into [minecraft](https://minecraft.net)  
+
+2148916235: Your account is from a country where xbox live does not work  
+
+2148916238: Your account is under 18 and it is not linked to a family, only the official launcher can log such accounts in and there is nothing i can do
