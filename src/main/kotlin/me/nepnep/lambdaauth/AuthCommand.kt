@@ -6,6 +6,7 @@ import com.microsoft.aad.msal4j.DeviceCodeFlowParameters
 import com.microsoft.aad.msal4j.IAuthenticationResult
 import com.microsoft.aad.msal4j.MsalException
 import com.microsoft.aad.msal4j.SilentParameters
+import net.minecraft.util.Session
 
 object AuthCommand : ClientCommand(
     name = "lambda-auth",
@@ -15,6 +16,12 @@ object AuthCommand : ClientCommand(
     internal const val tenant = "consumers"
     internal var authResult: IAuthenticationResult? = null
     init {
+        literal("invalidate") {
+            execute {
+                LambdaAuth.changeSession(Session("", "", "", "mojang"))
+            }
+        }
+
         execute {
             // See https://github.com/AzureAD/microsoft-authentication-library-for-java/blob/855a1aa0631cdd932a8200b89a57efcf8bd9f587/src/samples/public-client/DeviceCodeFlow.java
             LambdaAuth.microsoftApp.accounts.thenAccept { accounts ->

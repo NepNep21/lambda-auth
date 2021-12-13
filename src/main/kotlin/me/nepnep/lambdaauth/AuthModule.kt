@@ -17,7 +17,6 @@ import net.minecraft.client.gui.GuiDisconnected
 import net.minecraft.client.multiplayer.GuiConnecting
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.Session
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
@@ -117,9 +116,11 @@ internal object AuthModule : PluginModule(
                         }
                     }
                 }
-                if (session != null) {
-                    ObfuscationReflectionHelper.setPrivateValue(mc.javaClass, mc, session, "field_71449_j")
-                    mc.displayGuiScreen(GuiConnecting(event.screen!!, mc, mc.currentServerData!!))
+                session?.let { nonNullSession ->
+                    LambdaAuth.changeSession(nonNullSession)
+                    mc.currentServerData?.let {
+                        mc.displayGuiScreen(GuiConnecting(event.screen!!, mc, it))
+                    }
                 }
             }
         }

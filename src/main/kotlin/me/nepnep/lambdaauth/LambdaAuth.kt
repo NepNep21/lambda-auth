@@ -3,6 +3,9 @@ package me.nepnep.lambdaauth
 import com.lambda.client.plugin.api.Plugin
 import com.microsoft.aad.msal4j.PublicClientApplication
 import com.microsoft.aad.msal4j.SilentParameters
+import net.minecraft.client.Minecraft
+import net.minecraft.util.Session
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -12,6 +15,11 @@ internal object LambdaAuth : Plugin() {
     internal val microsoftApp = PublicClientApplication.builder("810b4a0d-7663-4e28-8680-24458240dee4")
         .setTokenCacheAccessAspect(TokenCache())
         .build()
+
+    fun changeSession(session: Session) {
+        val mc = Minecraft.getMinecraft()
+        ObfuscationReflectionHelper.setPrivateValue(mc.javaClass, mc, session, "field_71449_j")
+    }
 
     override fun onLoad() {
         // Needs cleanup, transfer to function
