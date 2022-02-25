@@ -7,7 +7,7 @@ import com.lambda.client.event.events.GuiEvent
 import com.lambda.client.mixin.extension.message
 import com.lambda.client.module.Category
 import com.lambda.client.plugin.api.PluginModule
-import com.lambda.event.listener.listener
+import com.lambda.client.event.listener.listener
 import com.mojang.authlib.Agent
 import com.mojang.authlib.UserType
 import com.mojang.authlib.exceptions.AuthenticationException
