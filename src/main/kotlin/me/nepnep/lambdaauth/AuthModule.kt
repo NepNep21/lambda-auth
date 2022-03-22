@@ -94,11 +94,12 @@ internal object AuthModule : PluginModule(
                                     minecraftAuth(client, xstsToken, userHash).use { mcResponse ->
                                         val mcToken = gson.fromJson(EntityUtils.toString(mcResponse.entity), jsonClass)["access_token"]
                                             .asString
-                                        if (!hasMinecraft(client, mcToken)) {
-                                            LambdaAuth.logger.error("Account does not own minecraft")
-                                            return@listener
-                                        }
                                         getProfile(client, mcToken).use { profile ->
+                                            val status = profile.statusLine.statusCode
+                                            if (status != 200) {
+                                                LambdaAuth.logger.error("Error while fetching profile $status")
+                                                return@listener
+                                            }
                                             val profileBody = gson.fromJson(EntityUtils.toString(profile.entity), jsonClass)
                                             val uuid = profileBody["id"].asString
                                             val name = profileBody["name"].asString
@@ -176,16 +177,6 @@ internal object AuthModule : PluginModule(
         request.setHeader("Accept", "application/json")
 
         return client.execute(request)
-    }
-
-    private fun hasMinecraft(client: CloseableHttpClient, token: String): Boolean {
-        val request = HttpGet("https://api.minecraftservices.com/entitlements/mcstore")
-        request.setHeader("Authorization", "Bearer $token")
-
-        client.execute(request).use {
-            val items = gson.fromJson(EntityUtils.toString(it.entity), jsonClass)["items"].asJsonArray
-            return items.size() != 0
-        }
     }
 
     private fun getProfile(client: CloseableHttpClient, token: String): CloseableHttpResponse {
